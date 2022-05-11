@@ -3,6 +3,7 @@ using BlogPessoal.src.data;
 using BlogPessoal.src.dtos;
 using BlogPessoal.src.repositorios;
 using BlogPessoal.src.repositorios.implementacoes;
+using BlogPessoal.src.utilidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -31,11 +32,11 @@ namespace BlogPessoalTeste.Testes.repositorios
 
             // GIVEN - Dado que registro 2 usuarios
             _repositorioU.NovoUsuario(
-                new NovoUsuarioDTO("José Vinicius", "JoseVinicius@email.com", "134652", "URLDAFOTO")
+                new NovoUsuarioDTO("José Vinicius", "JoseVinicius@email.com", "134652", "URLDAFOTO", TipoUsuario.NORMAL)
             );
             
             _repositorioU.NovoUsuario(
-                new NovoUsuarioDTO("Vinicius", "Vinicius@email.com","134652","URLDAFOTO")
+                new NovoUsuarioDTO("Vinicius", "Vinicius@email.com","134652","URLDAFOTO", TipoUsuario.NORMAL)
             );
             
             // AND - E que registro 2 temas
@@ -91,7 +92,7 @@ namespace BlogPessoalTeste.Testes.repositorios
 
             // GIVEN - Dado que registro 1 usuarios
             _repositorioU.NovoUsuario(
-                new NovoUsuarioDTO("Juse", "JuseVinicius@email.com", "134652", "URLDAFOTO")
+                new NovoUsuarioDTO("Juse", "JuseVinicius@email.com", "134652", "URLDAFOTO", TipoUsuario.NORMAL)
             );
             
             // AND - E que registro 1 tema
@@ -142,11 +143,11 @@ namespace BlogPessoalTeste.Testes.repositorios
 
             // GIVEN - Dado que registro 2 usuarios
             _repositorioU.NovoUsuario(
-                new NovoUsuarioDTO("JoseVinicius", "JoseVinicius@email.com", "134652", "URLDAFOTO")
+                new NovoUsuarioDTO("JoseVinicius", "JoseVinicius@email.com", "134652", "URLDAFOTO", TipoUsuario.NORMAL)
             );
             
             _repositorioU.NovoUsuario(
-                new NovoUsuarioDTO("ViniciusJose", "Vinicius@email.com","134652","URLDAFOTO")
+                new NovoUsuarioDTO("ViniciusJose", "Vinicius@email.com","134652","URLDAFOTO", TipoUsuario.NORMAL)
             );
             
             // AND - E que registro 2 temas

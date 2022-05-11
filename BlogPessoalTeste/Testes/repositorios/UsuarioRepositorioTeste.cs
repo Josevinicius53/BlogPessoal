@@ -3,6 +3,7 @@ using BlogPessoal.src.data;
 using BlogPessoal.src.dtos;
 using BlogPessoal.src.repositorios;
 using BlogPessoal.src.repositorios.implementacoes;
+using BlogPessoal.src.utilidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -27,19 +28,19 @@ namespace BlogPessoalTest.Testes.repositorios
 
             //GIVEN - Dado que registro 4 usuarios no banco
             _repositorio.NovoUsuario(
-                new NovoUsuarioDTO("Jose Vinicius", "JoseVinicius@email.com", "134652","URLFOTO")
+                new NovoUsuarioDTO("Jose Vinicius", "JoseVinicius@email.com", "134652","URLFOTO", TipoUsuario.NORMAL)
             );
             
             _repositorio.NovoUsuario(
-                new NovoUsuarioDTO("Willian Silva","Willian@email.com","134652","URLFOTO")
+                new NovoUsuarioDTO("Willian Silva","Willian@email.com","134652","URLFOTO", TipoUsuario.NORMAL)
             );
             
             _repositorio.NovoUsuario(
-                new NovoUsuarioDTO("Sueli Silva","Sueli@email.com","134652","URLFOTO")
+                new NovoUsuarioDTO("Sueli Silva","Sueli@email.com","134652","URLFOTO", TipoUsuario.NORMAL)
             );
  
             _repositorio.NovoUsuario(
-                new NovoUsuarioDTO("Jaine silva","Jaine@email.com","134652","URLFOTO")
+                new NovoUsuarioDTO("Jaine silva","Jaine@email.com","134652","URLFOTO", TipoUsuario.NORMAL)
             );
             
 			//WHEN - Quando pesquiso lista total            
@@ -60,7 +61,7 @@ namespace BlogPessoalTest.Testes.repositorios
 
             //GIVEN - Dado que registro um usuario no banco
             _repositorio.NovoUsuario(
-                new NovoUsuarioDTO("Jose Nilton","Nilton@email.com","134652","URLFOTO")
+                new NovoUsuarioDTO("Jose Nilton","Nilton@email.com","134652","URLFOTO", TipoUsuario.NORMAL)
             );
             
             //WHEN - Quando pesquiso pelo email deste usuario
@@ -83,7 +84,7 @@ namespace BlogPessoalTest.Testes.repositorios
 
             //GIVEN - Dado que registro um usuario no banco
             _repositorio.NovoUsuario(
-                new NovoUsuarioDTO("Thiago Silva","Thiago@email.com","134652","URLFOTO")
+                new NovoUsuarioDTO("Thiago Silva","Thiago@email.com","134652","URLFOTO", TipoUsuario.NORMAL)
             );
             
 			//WHEN - Quando pesquiso pelo id 1
@@ -108,7 +109,7 @@ namespace BlogPessoalTest.Testes.repositorios
 
             //GIVEN - Dado que registro um usuario no banco
             _repositorio.NovoUsuario(
-                new NovoUsuarioDTO("Diogo silva","estefania@email.com","134652","URLFOTO")
+                new NovoUsuarioDTO("Diogo silva","Diogo@email.com","134652","URLFOTO", TipoUsuario.NORMAL)
             );
             
             //WHEN - Quando atualizamos o usuario
@@ -116,7 +117,7 @@ namespace BlogPessoalTest.Testes.repositorios
                 new AtualizarUsuarioDTO(1,"Diogo Silva","123456","URLFOTONOVA")
             );
             
-            //THEN - Então, quando validamos pesquisa deve retornar nome Estefânia Moura
+            //THEN - Então, quando validamos pesquisa deve retornar nome Diogo Silva
             var antigo = _repositorio.PegarUsuarioPeloEmail("Diogo@email.com");
 
             Assert.AreEqual(

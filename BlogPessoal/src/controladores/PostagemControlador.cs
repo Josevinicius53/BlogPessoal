@@ -1,5 +1,6 @@
 using BlogPessoal.src.dtos;
 using BlogPessoal.src.repositorios;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogPessoal.src.controladores
@@ -29,6 +30,7 @@ namespace BlogPessoal.src.controladores
         #region Métodos
 
         [HttpGet("id/{idPostagem}")]
+        [Authorize]
         public IActionResult PegarPostagemPeloId([FromRoute] int idPostagem)
         {
             var postagem = _repositorio.PegarPostagemPeloId(idPostagem);
@@ -39,6 +41,7 @@ namespace BlogPessoal.src.controladores
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult PegarTodasPostagens()
         {
             var lista = _repositorio.PegarTodasPostagens ();
@@ -49,6 +52,7 @@ namespace BlogPessoal.src.controladores
         }
 
         [HttpGet("pesquisa")]
+        [Authorize]
         public IActionResult PegarPostagensPorPesquisa(
             [FromQuery] string titulo,
             [FromQuery] string descricaoTema,
@@ -62,6 +66,7 @@ namespace BlogPessoal.src.controladores
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult NovaPostagem([FromBody] NovaPostagemDTO postagem)
         {
             if(!ModelState.IsValid) return BadRequest();
@@ -72,6 +77,7 @@ namespace BlogPessoal.src.controladores
         }
 
         [HttpPut]
+        [Authorize]
         public IActionResult AtualizarPostagem([FromBody] AtualizarPostagemDTO postagem)
         {
             if(!ModelState.IsValid) return BadRequest();
@@ -82,6 +88,7 @@ namespace BlogPessoal.src.controladores
         }
 
         [HttpDelete("deletar/{idPostagem}")]
+        [Authorize]
         public IActionResult DeletarPostagem([FromRoute] int idPostagem)
         {
             _repositorio.DeletarPostagem(idPostagem);
