@@ -1,6 +1,7 @@
 ﻿using BlogPessoal.src.dtos;
 using BlogPessoal.src.modelos;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BlogPessoal.src.repositorios
 {
@@ -12,12 +13,12 @@ namespace BlogPessoal.src.repositorios
     /// </summary>
     public interface ITema
     {
-        
-        List<TemaModelo> PegarTodosTemas();
-        TemaModelo PegarTemaPeloId(int id);
-        List<TemaModelo> PegarTemasPelaDescricao(string descricao);
-        void NovoTema(NovoTemaDTO tema);
-        void AtualizarTema(AtualizarTemaDTO tema);
-        void DeletarTema(int id);
+
+        Task<List<TemaModelo>> PegarTodosTemasAsync();
+        Task<TemaModelo> PegarTemaPeloIdAsync(int id);
+        Task<List<TemaModelo>> PegarTemasPelaDescricaoAsync(string descricao);
+        Task NovoTemaAsync(NovoTemaDTO tema);
+        Task AtualizarTemaAsync(AtualizarTemaDTO tema);
+        Task DeletarTemaAsync(int id);
     }
 }

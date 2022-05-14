@@ -1,7 +1,10 @@
 using BlogPessoal.src.dtos;
+using BlogPessoal.src.modelos;
 using BlogPessoal.src.repositorios;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace BlogPessoal.src.controladores
 {
@@ -25,73 +28,149 @@ namespace BlogPessoal.src.controladores
         }
 
         #endregion
-        
-        
-        #region Métodos
 
+
+        #region Métodos
+        /// <summary>
+        /// Pegar toda as Postagens 
+        /// </summary>
+        /// <param Postagem="PostagemModelo">string</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200">Retorna a Postagem ok</response>
+        /// <response code="204">Postagem não existe</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PostagemModelo))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult> PegarTodasPostagensAsync()
+        {
+            var lista = await _repositorio.PegarTodasPostagensAsync();
+
+            if (lista.Count < 1) return NoContent();
+
+            return Ok(lista);
+        }
+        /// <summary>
+        /// Pegar Postagem pelo Id
+        /// </summary>
+        /// <returns>ActionResult</returns>
+        /// <response code="200">Retorna a Postagem ok</response>
+        /// <response code="404">Postagem não existente</response>
+        ///     
         [HttpGet("id/{idPostagem}")]
         [Authorize]
-        public IActionResult PegarPostagemPeloId([FromRoute] int idPostagem)
+        public async Task<ActionResult> PegarPostagemPeloIdAsync([FromRoute] int idPostagem)
         {
-            var postagem = _repositorio.PegarPostagemPeloId(idPostagem);
-            
+            var postagem = await _repositorio.PegarPostagemPeloIdAsync(idPostagem);
+
             if (postagem == null) return NotFound();
-            
+
             return Ok(postagem);
         }
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult PegarTodasPostagens()
-        {
-            var lista = _repositorio.PegarTodasPostagens ();
-
-            if (lista.Count < 1) return NoContent();
-            
-            return Ok(lista);
-        }
+        /// <summary>
+        /// Pegar postagens por Pesquisa
+        /// </summary>
+        /// <param name="tituloPostagem">string</param>
+        /// <param name="descricaoTema">string</param>
+        /// <param name="emailCriador">string</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200">Retorna postagens</response>
+        /// <response code="204">Postagns não existe pra essa pesquisa</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TemaModelo))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
 
         [HttpGet("pesquisa")]
         [Authorize]
-        public IActionResult PegarPostagensPorPesquisa(
-            [FromQuery] string titulo,
+        public async Task<ActionResult> PegarPostagensPorPesquisaAsync(
+            [FromQuery] string tituloPostagem,
             [FromQuery] string descricaoTema,
-            [FromQuery] string nomeCriador)
+            [FromQuery] string emailCriador)
         {
-            var postagens = _repositorio.PegarPostagensPorPesquisa(titulo, descricaoTema, nomeCriador);
-            
+            var postagens = await _repositorio.PegarPostagensPorPesquisaAsync(tituloPostagem, descricaoTema, emailCriador);
+
             if (postagens.Count < 1) return NoContent();
-            
+
             return Ok(postagens);
         }
-
+        /// <summary>
+        /// Criar nova Postagens
+        /// </summary>
+        /// <param name="postagem">NovoPostagemDTO</param>
+        /// <returns>ActionResult</returns>
+        /// <remarks>
+        /// Exemplo de requisição:
+        ///
+        ///     POST /api/Postagens
+        ///     {
+        ///       Titulo = "Hoje o dia está lindo",
+        ///       Descricao = "Previsão";
+        ///       Foto = "URLDAFOTO";
+        ///       EmailCriador = "Jose@gmail.com",
+        ///       DescricaoTema = "Vou ir a praia"
+        ///     }
+        ///
+        /// </remarks>
+        /// <response code="201">Retorna postagem criado</response>
+        /// <response code="400">Erro na requisição</response>
+        /// 
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(PostagemModelo))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         [Authorize]
-        public IActionResult NovaPostagem([FromBody] NovaPostagemDTO postagem)
+        public async Task<ActionResult> NovaPostagemAsync([FromBody] NovaPostagemDTO postagem)
         {
-            if(!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return BadRequest();
 
-            _repositorio.NovaPostagem(postagem);
-            
+            await _repositorio.NovaPostagemAsync(postagem);
+
             return Created($"api/Postagens", postagem);
         }
-
+        /// <summary>
+        /// Criar novo Usuario
+        /// </summary>
+        /// <param name="postagem">NovoPostagemDTO</param>
+        /// <returns>ActionResult</returns>
+        /// <remarks>
+        /// Exemplo de requisição:
+        ///
+        ///     POST /api/Usuarios
+        ///     {
+        ///       Id = 1;
+        ///       Titulo = "Hoje o dia esta chuvoso",
+        ///       Descricao = "Previsão",
+        ///       Foto = "URLDAFOTO",
+        ///       DescricaoTema = "Não vou ir a praia"
+        ///     }
+        ///
+        /// </remarks>
+        /// <response code="201">Retorna postagem criado</response>
+        /// <response code="400">Erro na requisição</response>
+        /// 
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(PostagemModelo))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
         [Authorize]
-        public IActionResult AtualizarPostagem([FromBody] AtualizarPostagemDTO postagem)
+        public async Task<ActionResult> AtualizarPostagemAsync([FromBody] AtualizarPostagemDTO postagem)
         {
-            if(!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return BadRequest();
 
-            _repositorio.AtualizarPostagem(postagem);
-            
+            await _repositorio.AtualizarPostagemAsync(postagem);
+
             return Ok(postagem);
         }
-
+        /// <summary>
+        /// Deletar Postagem pelo Id
+        /// </summary>
+        /// <param name="idPostagem">int</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="204">Postagem deletada</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpDelete("deletar/{idPostagem}")]
         [Authorize]
-        public IActionResult DeletarPostagem([FromRoute] int idPostagem)
+        public async Task<ActionResult> DeletarPostagem([FromRoute] int idPostagem)
         {
-            _repositorio.DeletarPostagem(idPostagem);
+            await _repositorio.DeletarPostagemAsync(idPostagem);
             return NoContent();
         }
 

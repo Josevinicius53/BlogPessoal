@@ -1,12 +1,20 @@
 ﻿using BlogPessoal.src.dtos;
 using BlogPessoal.src.modelos;
+using System.Threading.Tasks;
+
 namespace BlogPessoal.src.servicos
 {
+    /// <summary>
+    /// <para>Resumo: Interface Responsavel por representar ações de autenticação</para>
+    /// <para>Criado por: Jose Vinicius</para>
+    /// <para>Versão: 1.0</para>
+    /// <para>Data: 14/05/2022</para>
+    /// </summary>
     public interface IAutenticacao
     {
         string CodificarSenha(string senha);
-        void CriarUsuarioSemDuplicar(NovoUsuarioDTO usuario);
+        Task CriarUsuarioSemDuplicarAsync(NovoUsuarioDTO usuario);
         string GerarToken(UsuarioModelo usuario);
-        AutorizacaoDTO PegarAutorizacao(AutenticarDTO autenticacao);
+        Task<AutorizacaoDTO> PegarAutorizacaoAsync(AutenticarDTO autenticacao);
     }
 }

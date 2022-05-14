@@ -10,7 +10,7 @@ namespace BlogPessoal.src.dtos
     /// </summary>
     public class NovaPostagemDTO
     {
-        [Required, StringLength(30)]
+        [Required, StringLength(50)]
         public string Titulo { get; set; }
 
         [Required, StringLength(100)]

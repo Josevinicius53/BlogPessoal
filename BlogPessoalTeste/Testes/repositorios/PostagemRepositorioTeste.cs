@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using BlogPessoal.src.data;
 using BlogPessoal.src.dtos;
 using BlogPessoal.src.repositorios;
@@ -18,7 +19,7 @@ namespace BlogPessoalTeste.Testes.repositorios
         private IPostagem _repositorioP;
 
         [TestMethod]
-        public void CriaTresPostagemNoSistemaRetornaTres()
+        public async Task CriaTresPostagemNoSistemaRetornaTres()
         {
             // Definindo o contexto
            var opt = new DbContextOptionsBuilder<BlogPessoalContexto>()
@@ -31,11 +32,11 @@ namespace BlogPessoalTeste.Testes.repositorios
             _repositorioP = new PostagemRepositorio(_contexto);
 
             // GIVEN - Dado que registro 2 usuarios
-            _repositorioU.NovoUsuario(
+            await _repositorioU.NovoUsuarioAsync(
                 new NovoUsuarioDTO("José Vinicius", "JoseVinicius@email.com", "134652", "URLDAFOTO", TipoUsuario.NORMAL)
             );
             
-            _repositorioU.NovoUsuario(
+            await _repositorioU.NovoUsuarioAsync(
                 new NovoUsuarioDTO("Vinicius", "Vinicius@email.com","134652","URLDAFOTO", TipoUsuario.NORMAL)
             );
             
@@ -78,7 +79,7 @@ namespace BlogPessoalTeste.Testes.repositorios
         }
 
         [TestMethod]
-        public void AtualizarPostagemRetornaPostagemAtualizada()
+        public async Task AtualizarPostagemRetornaPostagemAtualizada()
         {
             // Definindo o contexto
             var opt = new DbContextOptionsBuilder<BlogPessoalContexto>()
@@ -91,7 +92,7 @@ namespace BlogPessoalTeste.Testes.repositorios
             _repositorioP = new PostagemRepositorio(_contexto);
 
             // GIVEN - Dado que registro 1 usuarios
-            _repositorioU.NovoUsuario(
+            await _repositorioU.NovoUsuarioAsync(
                 new NovoUsuarioDTO("Juse", "JuseVinicius@email.com", "134652", "URLDAFOTO", TipoUsuario.NORMAL)
             );
             
@@ -129,7 +130,7 @@ namespace BlogPessoalTeste.Testes.repositorios
         }
 
         [TestMethod]
-        public void PegarPostagensPorPesquisaRetodarCustomizada()
+        public async Task PegarPostagensPorPesquisaRetodarCustomizada()
         {
             // Definindo o contexto
             var opt = new DbContextOptionsBuilder<BlogPessoalContexto>()
@@ -142,11 +143,11 @@ namespace BlogPessoalTeste.Testes.repositorios
             _repositorioP = new PostagemRepositorio(_contexto);
 
             // GIVEN - Dado que registro 2 usuarios
-            _repositorioU.NovoUsuario(
+            await _repositorioU.NovoUsuarioAsync(
                 new NovoUsuarioDTO("JoseVinicius", "JoseVinicius@email.com", "134652", "URLDAFOTO", TipoUsuario.NORMAL)
             );
             
-            _repositorioU.NovoUsuario(
+            await _repositorioU.NovoUsuarioAsync(
                 new NovoUsuarioDTO("ViniciusJose", "Vinicius@email.com","134652","URLDAFOTO", TipoUsuario.NORMAL)
             );
             
