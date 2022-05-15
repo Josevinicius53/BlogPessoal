@@ -131,10 +131,17 @@ namespace BlogPessoal
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "BlogPessoal v1");
                     c.RoutePrefix = String.Empty;
                 });
-
             }
 
             // Ambiente de produção
+            contexto.Database.EnsureCreated();
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "BlogPessoal v1");
+                c.RoutePrefix = String.Empty;
+            });
+
             // Rotas
             app.UseRouting();
 
