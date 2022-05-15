@@ -41,11 +41,11 @@ namespace BlogPessoalTeste.Testes.repositorios
             );
             
             // AND - E que registro 2 temas
-            _repositorioT.NovoTema(new NovoTemaDTO("Nuruto"));
-            _repositorioT.NovoTema(new NovoTemaDTO("The Resident"));
+            await _repositorioT.NovoTemaAsync(new NovoTemaDTO("Nuruto"));
+            await _repositorioT.NovoTemaAsync(new NovoTemaDTO("The Resident"));
 
             // WHEN - Quando registro 3 postagens
-            _repositorioP.NovaPostagem(
+            await _repositorioP.NovaPostagemAsync(
                 new NovaPostagemDTO(
                     "Naturuto é bacana",
                     "É um anime muito assistido no mundo",
@@ -54,7 +54,7 @@ namespace BlogPessoalTeste.Testes.repositorios
                     "Naruto é bacana"
                 )
             );
-            _repositorioP.NovaPostagem(
+            await _repositorioP.NovaPostagemAsync(
                 new NovaPostagemDTO(
                     "Naruto esta sendo um teste",
                     "O teste unitário é importante para o desenvolvimento",
@@ -63,7 +63,7 @@ namespace BlogPessoalTeste.Testes.repositorios
                     "Naturo"
                 )
             );
-            _repositorioP.NovaPostagem(
+            await _repositorioP.NovaPostagemAsync(
                 new NovaPostagemDTO(
                     "The resident muito legal",
                     "The resident acabou de ser lançado",
@@ -74,8 +74,10 @@ namespace BlogPessoalTeste.Testes.repositorios
             );
             
             // WHEN - Quando eu busco todas as postagens
+            var lista = await _repositorioP.PegarTodasPostagensAsync();
+
             // THEN - Eu tenho 3 postagens
-            Assert.AreEqual(3, _repositorioP.PegarTodasPostagens().Count());
+            Assert.AreEqual(3, lista.Count());
         }
 
         [TestMethod]
@@ -97,11 +99,11 @@ namespace BlogPessoalTeste.Testes.repositorios
             );
             
             // AND - E que registro 1 tema
-            _repositorioT.NovoTema(new NovoTemaDTO("Fusca"));
-            _repositorioT.NovoTema(new NovoTemaDTO("Corsa"));
+            await _repositorioT.NovoTemaAsync(new NovoTemaDTO("Fusca"));
+            await _repositorioT.NovoTemaAsync(new NovoTemaDTO("Corsa"));
 
             // AND - E que registro 1 postagem
-            _repositorioP.NovaPostagem(
+            await _repositorioP.NovaPostagemAsync(
                 new NovaPostagemDTO(
                     "Fusca é muito antigo",
                     "É uma Reliquia, muito utilizada pra coleções",
@@ -112,21 +114,23 @@ namespace BlogPessoalTeste.Testes.repositorios
             );
 
             // WHEN - Quando atualizo postagem de id 1
-            _repositorioP.AtualizarPostagem(
+            await _repositorioP.AtualizarPostagemAsync(
                 new AtualizarPostagemDTO(
                     1,
                     "Corsa é muito Bonito",
-                    " O corsa é muito utilizada Hoje em dia",
+                    "O corsa é muito utilizada Hoje em dia",
                     "URLDAFOTOATUALIZADA",
                     "Corsa"
                 )
             );
 
+            var postagem = await _repositorioP.PegarPostagemPeloIdAsync(1);
+
             // THEN - Eu tenho a postagem atualizada
-            Assert.AreEqual("Corsa é muito Bonito", _repositorioP.PegarPostagemPeloId(1).Titulo);
-            Assert.AreEqual("O corsa é muito utilizada Hoje em dia", _repositorioP.PegarPostagemPeloId(1).Descricao);
-            Assert.AreEqual("URLDAFOTOATUALIZADA",_repositorioP.PegarPostagemPeloId(1).Foto);
-            Assert.AreEqual("Corsa", _repositorioP.PegarPostagemPeloId(1).Tema.Descricao);
+            Assert.AreEqual("Corsa é muito Bonito", postagem.Titulo);
+            Assert.AreEqual("O corsa é muito utilizada Hoje em dia", postagem.Descricao);
+            Assert.AreEqual("URLDAFOTOATUALIZADA", postagem.Foto);
+            Assert.AreEqual("Corsa", postagem.Tema.Descricao);
         }
 
         [TestMethod]
@@ -152,11 +156,11 @@ namespace BlogPessoalTeste.Testes.repositorios
             );
             
             // AND - E que registro 2 temas
-            _repositorioT.NovoTema(new NovoTemaDTO("Livros"));
-            _repositorioT.NovoTema(new NovoTemaDTO("Quadrinhos"));
+            await _repositorioT.NovoTemaAsync(new NovoTemaDTO("Livros"));
+            await _repositorioT.NovoTemaAsync(new NovoTemaDTO("Quadrinhos"));
 
             // WHEN - Quando registro 3 postagens
-            _repositorioP.NovaPostagem(
+            await _repositorioP.NovaPostagemAsync(
                 new NovaPostagemDTO(
                     "Livros é muito legal",
                     "livros é muito utilizado no mundo",
@@ -165,7 +169,7 @@ namespace BlogPessoalTeste.Testes.repositorios
                     "Livros"
                 )
             );
-            _repositorioP.NovaPostagem(
+            await _repositorioP.NovaPostagemAsync(
                 new NovaPostagemDTO(
                     "C# pode ser usado com Testes",
                     "O teste unitário é importante para o desenvolvimento",
@@ -174,7 +178,7 @@ namespace BlogPessoalTeste.Testes.repositorios
                     "C#"
                 )
             );
-            _repositorioP.NovaPostagem(
+            await _repositorioP.NovaPostagemAsync(
                 new NovaPostagemDTO(
                     "Java é muito massa",
                     "Java também é muito utilizada no mundo",
@@ -184,11 +188,15 @@ namespace BlogPessoalTeste.Testes.repositorios
                 )
             );
 
+            var postagensTeste1 = await _repositorioP.PegarPostagensPorPesquisaAsync("Livros", null, null);
+            var postagensTeste2 = await _repositorioP.PegarPostagensPorPesquisaAsync(null, "Fusca", null);
+            var postagensTeste3 = await _repositorioP.PegarPostagensPorPesquisaAsync(null, null, "JoseVinicius@email.com");
+
             // WHEN - Quando eu busco as postagen
             // THEN - Eu tenho as postagens que correspondem aos criterios
-            Assert.AreEqual(2, _repositorioP.PegarPostagensPorPesquisa("Livros", null, null).Count);
-            Assert.AreEqual(2, _repositorioP.PegarPostagensPorPesquisa(null, "Fusca", null).Count);
-            Assert.AreEqual(2, _repositorioP.PegarPostagensPorPesquisa(null, null, "José Vinicius").Count);
+            Assert.AreEqual(1, postagensTeste1.Count);
+            Assert.AreEqual(0, postagensTeste2.Count);
+            Assert.AreEqual(2, postagensTeste3.Count);
         }
     }
 }

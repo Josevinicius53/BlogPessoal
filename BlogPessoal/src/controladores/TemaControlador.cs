@@ -159,7 +159,7 @@ namespace BlogPessoal.src.controladores
         /// <summary>
         /// Deletar Tema pelo Id
         /// </summary>
-        /// <param name="idTema</param>
+        /// <param name="idTema">Ide do tema</param>
         /// <returns>ActionResult</returns>
         /// <response code="204">Tema Deletdo</response>
         [ProducesResponseType(StatusCodes.Status204NoContent)]
