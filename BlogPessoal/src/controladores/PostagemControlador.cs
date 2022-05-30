@@ -127,7 +127,7 @@ namespace BlogPessoal.src.controladores
             return Created($"api/Postagens", postagem);
         }
         /// <summary>
-        /// Criar novo Usuario
+        /// Criar nova Postagem
         /// </summary>
         /// <param name="postagem">NovoPostagemDTO</param>
         /// <returns>ActionResult</returns>
