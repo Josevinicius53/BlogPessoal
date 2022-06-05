@@ -23,10 +23,10 @@ namespace BlogPessoal.src.modelos
         [Required, StringLength(50)]
         public string Nome { get; set; }
 
-        [Required, StringLength(30)]
+        [Required, StringLength(60)]
         public string Email { get; set; }
 
-        [Required, StringLength(30)]
+        [Required, StringLength(80)]
         public string Senha { get; set; }
 
         public string Foto { get; set; }
