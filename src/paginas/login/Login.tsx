@@ -41,7 +41,7 @@ function Login() {
 
         try {
 
-            await login(`/api/Usuarios/logar`, usuario, setToken, setIdCriador);
+            await login(`/api/Autenticacao`, usuario, setToken, setIdCriador);
 
             alert('Usuário logado com sucesso!');
         } catch (error) {
