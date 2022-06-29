@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Box } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import './Navbar.css';
 import useLocalStorage from "react-use-localstorage";
 import { useSelector } from 'react-redux';

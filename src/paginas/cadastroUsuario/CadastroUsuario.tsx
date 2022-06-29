@@ -1,6 +1,6 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import { Grid, Box, Typography, TextField, Button, FormControl, InputLabel, Select } from "@mui/material";
-import { cadastroUsuarios } from "../../services/Service";
+import { cadastroUsuario } from "../../services/Service";
 import RegistraUsuarioDTO from "../../models/Usuario"
 import { Link, useNavigate } from "react-router-dom";
 import './CadastroUsuario.css';
@@ -60,7 +60,7 @@ function CadastroUsuario() {
 
         if (confirmarSenha === registraUsuarioDTO.senha) {
             try {
-                await cadastroUsuarios(`/api/Usuarios`, registraUsuarioDTO, setRegistraUsuarioDTOResultado)
+                await cadastroUsuario(`/api/Usuarios`, registraUsuarioDTO, setRegistraUsuarioDTOResultado)
                 alert('Usuario cadastrado com sucesso')
             } catch (error) {
                 alert('Usuario já cadastrado, tente outro email!')
